@@ -1,14 +1,20 @@
 {
   "name": "karel-debugger",
   "displayName": "karel_debugger",
-  "description": "",
+  "description": "Karel Debugger for VS Code",
   "version": "0.0.1",
+  "license": "MIT",
+  "publisher": "minhtzy",
   "engines": {
     "vscode": "^1.97.0"
   },
   "categories": [
     "Debuggers"
   ],
+  "repository": {
+        "type": "git",
+        "url": "https://github.com/minhtzy/karel_debugger.git"
+    },
   "activationEvents": [
     "onDebugInitialize",
     "onDebugSessionStart",
@@ -101,9 +107,12 @@
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "check-types": "tsc --noEmit",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "publish": "vsce publish --no-dependencies"
   },
   "devDependencies": {
+    "@types/chai": "^4.3.5",
+    "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
     "@types/vscode": "^1.97.0",
@@ -111,20 +120,19 @@
     "@typescript-eslint/parser": "^8.22.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
+    "chai": "^4.3.7",
     "esbuild": "^0.24.2",
     "eslint": "^9.19.0",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.7.3",
-    "chai": "^4.3.7",
+    "glob": "^8.1.0",
     "mocha": "^10.2.0",
+    "npm-run-all": "^4.1.5",
     "ts-node": "^10.9.1",
-    "@types/chai": "^4.3.5",
-    "@types/glob": "^8.1.0",
-    "glob": "^8.1.0"
+    "typescript": "^5.7.3"
   },
   "dependencies": {
     "@vscode/debugadapter": "^1.68.0",
     "@vscode/debugprotocol": "^1.68.0",
+    "@vscode/vsce": "^3.2.2",
     "basic-ftp": "^5.0.5",
     "dotenv": "^16.4.7"
   }

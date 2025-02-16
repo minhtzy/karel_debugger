@@ -1,71 +1,156 @@
-# karel-debugger README
+# Karel Debugger for VS Code
 
-This is the README for your extension "karel-debugger". After writing up a brief description, we recommend including the following sections.
+A Visual Studio Code extension for debugging Karel and TP programs used in FANUC Robotics controllers. This extension provides comprehensive debugging capabilities and build tools for both Karel (.kl, .klh, .klt) and TP (.ls) programs.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Build Support**
+  - Compile Karel programs using KTRANS compiler
+  - Build TP programs using MAKETP
+  - Automatic output directory management
+  - Support for custom compiler paths and versions
 
-For example if there is an image subfolder under your extension project workspace:
+- **Debug Capabilities**
+  - Set and manage breakpoints
+  - Step through code execution
+  - Variable inspection
+  - Pause and resume execution
+  - Multi-file project support
 
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **FTP Integration**
+  - Direct upload to robot controller
+  - Secure credential management
+  - Automatic file transfer after successful compilation
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- Visual Studio Code 1.60.0 or newer
+- KTRANS compiler (for Karel programs)
+- MAKETP compiler (for TP programs)
+- FTP access to robot controller (optional)
+
+## Installation
+
+1. Install the extension from VS Code Marketplace
+2. Configure compiler paths in settings
+3. Set up FTP credentials (optional)
+
+## Configuration
+
+Create or update your `.vscode/launch.json`:
+
+```json
+{
+"version": "0.2.0",
+    "configurations": [
+        {
+        "type": "karel",
+        "request": "launch",
+        "name": "Debug Karel Program",
+        "program": "${file}",
+        "ktransPath": "C:\\path\\to\\ktrans.exe",
+        "maketpPath": "C:\\path\\to\\maketp.exe",
+        "version": "2.3",
+        "inifile": "${workspaceFolder}/config.ini",
+        "sourceDirectory": "${workspaceFolder}/src",
+        "ftpConfig": {
+        "host": "192.168.1.100",
+        "port": 21
+        }
+        }
+    ]
+}
+```
+
+### Configuration Options
+
+- `program`: Path to the Karel source file
+- `ktransPath`: Path to KTRANS compiler (default: "ktrans")
+- `version`: Karel version (default: "2.3")
+- `inifile`: Path to INI configuration file (optional)
+- `sourceDirectory`: Directory containing Karel source files
+- `ftpConfig`: FTP configuration for uploading to robot (optional)
+  - `host`: Robot IP address
+  - `port`: FTP port (default: 21)
+
+## Usage
+
+1. **Building Programs**
+   - Open a Karel (.kl) or TP (.ls) file
+   - Use Command Palette (`Ctrl+Shift+P`) and select "Karel: Build Program"
+   - Or press F5 to build and start debugging
+
+2. **Debugging**
+   - Set breakpoints by clicking the gutter
+   - Use debug toolbar for step, continue, and pause
+   - View variables in the Debug sidebar
+
+3. **FTP Upload**
+   - Configure FTP settings in launch.json
+   - Compiled files automatically upload after successful build
+   - Use environment variables for secure credential storage
+
+# Environment Variables
+
+For FTP configuration, create a `.env` file in your workspace:
+```
+KAREL_FTP_USER=your_username
+KAREL_FTP_PASSWORD=your_password
+```
+
+
+## Building from Source
+
+Install dependencies
+```bash
+pnpm install
+```
+Compile
+```bash
+pnpm run compile
+```
+Package
+```bash
+pnpm run package
+```
+Run tests
+```bash
+pnpm test
+```
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+* `karel.ktransPath`: Path to KTRANS compiler
+* `karel.maketpPath`: Path to MAKETP compiler
+* `karel.defaultVersion`: Default Karel version
+* `karel.outputDirectory`: Custom output directory location
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- FTP upload requires manual credential management
+- Limited support for older Karel versions
+- MAKETP path must be set separately from KTRANS
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
+- Initial release
+- Support for Karel and TP program debugging
+- FTP integration
+- Build system integration
 
-Initial release of ...
+## License
 
-### 1.0.1
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-Fixed issue #.
+## Acknowledgments
 
-### 1.1.0
+- FANUC Robotics for Karel programming language
+- VS Code team for the debug adapter protocol
+- Community contributors
 
-Added features X, Y, and Z.
+## Support
 
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+For bug reports and feature requests, please use the [GitHub issues](https://github.com/yourusername/karel-debugger/issues) page.
