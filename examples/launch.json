@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "karel",
+            "request": "launch",
+            "name": "Debug Karel Program",
+            "program": "${file}",
+            "ktransPath": "C:\\path\\to\\ktrans.exe",
+            "version": "2.3",
+            "inifile": "${workspaceFolder}/config.ini",
+            "sourceDirectory": "${workspaceFolder}/src",
+            "ftpConfig": {
+                "host": "192.168.1.100",
+                "port": 21
+            }
+        }
+    ]
+}

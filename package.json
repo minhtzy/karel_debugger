@@ -1,0 +1,131 @@
+{
+  "name": "karel-debugger",
+  "displayName": "karel_debugger",
+  "description": "",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.97.0"
+  },
+  "categories": [
+    "Debuggers"
+  ],
+  "activationEvents": [
+    "onDebugInitialize",
+    "onDebugSessionStart",
+    "onDebugSessionEnd",
+    "onDebug"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "karel.build",
+        "title": "Karel: Build Program"
+      }
+    ],
+    "debuggers": [
+      {
+        "type": "karel",
+        "label": "Karel Debug",
+        "program": "./out/debugAdapter.js",
+        "runtime": "node",
+        "configurationAttributes": {
+          "launch": {
+            "required": [
+              "program"
+            ],
+            "properties": {
+              "program": {
+                "type": "string",
+                "description": "Path to Karel source file (.kl, .klh, .klt)",
+                "default": "${workspaceFolder}/${command:AskForProgramName}"
+              },
+              "ktransPath": {
+                "type": "string",
+                "description": "Path to ktrans compiler",
+                "default": "ktrans"
+              },
+              "version": {
+                "type": "string",
+                "description": "Karel version",
+                "default": "2.3"
+              },
+              "inifile": {
+                "type": "string",
+                "description": "Path to ini configuration file"
+              },
+              "sourceDirectory": {
+                "type": "string",
+                "description": "Directory containing Karel source files",
+                "default": "${workspaceFolder}"
+              },
+              "ftpConfig": {
+                "type": "object",
+                "description": "FTP configuration for PC file transfer",
+                "properties": {
+                  "host": {
+                    "type": "string",
+                    "description": "FTP host"
+                  },
+                  "port": {
+                    "type": "number",
+                    "description": "FTP port"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "initialConfigurations": [
+          {
+            "type": "karel",
+            "request": "launch",
+            "name": "Debug Karel Program",
+            "program": "${workspaceFolder}/${command:AskForProgramName}",
+            "ktransPath": "ktrans",
+            "version": "2.3"
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "pnpm run check-types && pnpm run lint && node esbuild.js",
+    "watch": "npm-run-all -p watch:*",
+    "watch:esbuild": "node esbuild.js --watch",
+    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
+    "package": "pnpm run check-types && pnpm run lint && node esbuild.js --production",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "check-types": "tsc --noEmit",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "20.x",
+    "@types/vscode": "^1.97.0",
+    "@typescript-eslint/eslint-plugin": "^8.22.0",
+    "@typescript-eslint/parser": "^8.22.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
+    "esbuild": "^0.24.2",
+    "eslint": "^9.19.0",
+    "npm-run-all": "^4.1.5",
+    "typescript": "^5.7.3",
+    "chai": "^4.3.7",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.1",
+    "@types/chai": "^4.3.5",
+    "@types/glob": "^8.1.0",
+    "glob": "^8.1.0"
+  },
+  "dependencies": {
+    "@vscode/debugadapter": "^1.68.0",
+    "@vscode/debugprotocol": "^1.68.0",
+    "basic-ftp": "^5.0.5",
+    "dotenv": "^16.4.7"
+  }
+}
